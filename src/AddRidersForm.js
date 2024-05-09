@@ -2,11 +2,16 @@ import React, {useState} from "react";
 import { connect } from "react-redux";
 import { addRider, fetchRider, updateRider, deleteRider, reset } from "./Redux/action_creators";
 import RidersList from './RidersList'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAddressBook } from "@fortawesome/free-solid-svg-icons";
+import { FaAddressBook } from 'react-icons/fa';
+//import { faArrowUp } from 'react-icons'//"@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const AddRidersForm = ({updatedRider, searchedRider, addRider, fetchRider, updateRider, deleteRider, reset}) => {
 
     const [rider, setRider] = useState({id:0, name:''})
+    const [riderId, setRiderId] = useState(0)
     
 
     const handleChange = (e) => {
@@ -23,6 +28,7 @@ const AddRidersForm = ({updatedRider, searchedRider, addRider, fetchRider, updat
     const handleSearch = () => {
         fetchRider(rider.id.toString())
         console.log(updatedRider)
+        setRiderId(rider.id)
     }
 
     const handleUpdate = () => {
@@ -78,7 +84,8 @@ const AddRidersForm = ({updatedRider, searchedRider, addRider, fetchRider, updat
     return (
         <div className="my-8 w-auto ">
             <header className="border border-b-4 bg-slate-600 p-4 sticky top-0 z-5">
-                <nav>
+                <nav className="flex justify-between align-middle items-center px-4">
+                    <FaAddressBook size={'50px'}/>
                     <ul className="flex items-center justify-end text-white text-xl">
                         <li className="mx-4"><a href="/">Home</a></li>
                         <li className="mx-4"><a href="/">Riders</a></li>
@@ -131,7 +138,7 @@ const AddRidersForm = ({updatedRider, searchedRider, addRider, fetchRider, updat
                 return <li key={rider.id}>{rider.name}</li>
             })}
 
-            <RidersList riders={updatedRider || rider} searchedRiderID={rider.id}/>
+            <RidersList riders={updatedRider || rider} searchedRiderID={riderId}/>
         </div>
     )
 };
